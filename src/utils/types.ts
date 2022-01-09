@@ -1,10 +1,10 @@
 export interface Cloud extends Record<string, unknown> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
-  cloud_description: string;
+  cloud_description?: string;
   cloud_name: string;
-  geo_latitude: number;
-  geo_longitude: number;
+  geo_latitude?: number;
+  geo_longitude?: number;
   geo_region: string;
 }
 

@@ -34,7 +34,9 @@ const selectProviderShortName = (cloud: Cloud): string =>
   cloud.cloud_name.split("-")[0];
 
 const selectProviderName = (cloud: Cloud): string =>
-  cloud.cloud_description.split("-")[1].split(":")[0].trim();
+  cloud.cloud_description
+    ? cloud.cloud_description.split("-")[1].split(":")[0].trim()
+    : "Unknown";
 
 const selectRegionShortName = (cloud: Cloud): string => cloud.geo_region;
 
@@ -53,12 +55,14 @@ const parseRegions = R.createPipe(
 
 const enrichWithDistance = (clouds: Cloud[], position: GeolocationPosition) =>
   R.map(clouds, (cloud) => {
-    cloud.distance = distanceInKmBetweenEarthCoordinates(
-      position.coords.latitude,
-      position.coords.longitude,
-      cloud.geo_latitude,
-      cloud.geo_longitude
-    );
+    if (cloud.geo_latitude && cloud.geo_longitude) {
+      cloud.distance = distanceInKmBetweenEarthCoordinates(
+        position.coords.latitude,
+        position.coords.longitude,
+        cloud.geo_latitude,
+        cloud.geo_longitude
+      );
+    }
     return cloud;
   });
 
