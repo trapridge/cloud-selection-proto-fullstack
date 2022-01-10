@@ -8,11 +8,19 @@ sanic = "*"
 httpx = "*"
 aiocache = "*"
 pygeodesy = "*"
-asyncstdlib = "*"
+typing_extensions = "*"
 
 [dev-packages]
-typing_extensions = "*"
 black = "*"
+pytest = "*"
+pytest_mock = "*"
+sanic-testing = "*"
+pytest-asyncio = "*"
+respx = "*"
 
 [requires]
 python_version = "3.7"
+
+[scripts]
+test = "env AIOCACHE_DISABLE=1 pytest -v ./modules"
+format = "black ."

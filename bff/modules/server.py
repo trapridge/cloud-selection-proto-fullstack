@@ -1,4 +1,3 @@
-from typing import Optional
 from sanic import Sanic, app
 from sanic import response
 from sanic.request import Request
@@ -9,6 +8,7 @@ from modules.filter import filter_clouds
 from modules.sort import sort_clouds
 from modules.utils import enrich_clouds_with_distance
 from modules.fetch import fetch_clouds_list
+
 
 app = Sanic("bff")
 

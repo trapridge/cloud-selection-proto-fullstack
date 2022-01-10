@@ -1,5 +1,4 @@
 from typing import List, Optional
-from sanic.request import RequestParameters
 from sanic.exceptions import SanicException
 from pygeodesy import haversine
 from sanic.log import logger
