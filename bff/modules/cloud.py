@@ -1,6 +1,7 @@
 from typing import Optional
 from typing_extensions import TypedDict
 
+
 class Cloud(TypedDict):
     cloud_description: Optional[str]
     cloud_name: str

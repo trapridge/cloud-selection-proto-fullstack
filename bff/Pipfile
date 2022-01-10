@@ -12,6 +12,7 @@ asyncstdlib = "*"
 
 [dev-packages]
 typing_extensions = "*"
+black = "*"
 
 [requires]
 python_version = "3.7"
