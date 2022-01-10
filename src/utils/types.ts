@@ -6,6 +6,7 @@ export interface Cloud extends Record<string, unknown> {
   geo_latitude?: number;
   geo_longitude?: number;
   geo_region: string;
+  distance?: number;
 }
 
 export interface NamedEntity extends Record<string, string> {
@@ -29,8 +30,8 @@ export enum SortBy {
 }
 
 export enum SortOrder {
-  Ascending = "asc",
-  Descending = "desc",
+  Ascending = "ascending",
+  Descending = "descending",
 }
 
 export enum Theme {
@@ -60,6 +61,7 @@ export interface CloudsContext {
 }
 
 export enum CloudsState {
+  InitialLoading = "initialLoading",
   Loading = "loading",
   Positioning = "positioning",
   Ready = "ready",
@@ -68,6 +70,7 @@ export enum CloudsState {
 
 export interface CloudsStateSchema {
   states: {
+    [CloudsState.InitialLoading]: Record<string, unknown>;
     [CloudsState.Loading]: Record<string, unknown>;
     [CloudsState.Ready]: Record<string, unknown>;
     [CloudsState.Failure]: Record<string, unknown>;

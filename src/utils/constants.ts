@@ -1,1 +1,1 @@
-export const LIST_AVAILABLES_ENDPOINT = "https://api.aiven.io/v1/clouds";
+export const LIST_AVAILABLES_ENDPOINT = "/clouds";

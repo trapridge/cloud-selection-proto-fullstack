@@ -23,9 +23,19 @@ export const App = ({ service }: AppProps): JSX.Element => {
 
   return (
     <Page theme={theme}>
-      {state.matches(CloudsState.Loading) && <Spinner />}
       {(state.matches(CloudsState.Positioning) ||
-        state.matches(CloudsState.Ready)) && (
+        state.matches(CloudsState.InitialLoading)) && (
+        <>
+          <Spinner />
+          <Text color="primary" as="div">
+            {state.matches(CloudsState.Positioning)
+              ? "Getting geolocation"
+              : "Loading clouds"}
+          </Text>
+        </>
+      )}
+      {(state.matches(CloudsState.Ready) ||
+        state.matches(CloudsState.Loading)) && (
         <>
           <Header
             theme={theme}

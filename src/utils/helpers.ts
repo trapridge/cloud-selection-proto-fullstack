@@ -1,6 +1,6 @@
 import * as R from "remeda";
 import { LIST_AVAILABLES_ENDPOINT } from "./constants";
-import { Cloud, NamedEntity, SortOrder, Theme } from "./types";
+import { Cloud, CloudsContext, NamedEntity, SortOrder, Theme } from "./types";
 
 export const sortAlphabetically = <T extends Record<string, unknown>>(
   byProp: string,
@@ -18,8 +18,8 @@ export const sortCloudsBydistance = <T extends Cloud>(
 ): ((items: T[]) => T[]) =>
   R.sort((a: T, b: T) =>
     order === SortOrder.Ascending
-      ? a.distance - b.distance
-      : b.distance - a.distance
+      ? (a.distance || 0) - (b.distance || 0)
+      : (b.distance || 0) - (a.distance || 0)
   );
 
 export const capitalize = (str: string): string =>
@@ -51,35 +51,13 @@ export const getGeoLocation = (): Promise<GeolocationPosition> => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         resolve as unknown as PositionCallback,
-        reject as PositionErrorCallback
+        reject as PositionErrorCallback,
+        { enableHighAccuracy: false }
       );
     } else {
       reject();
     }
   });
-};
-
-// adapted from https://stackoverflow.com/a/365853
-export const distanceInKmBetweenEarthCoordinates = (
-  lat1: number,
-  lon1: number,
-  lat2: number,
-  lon2: number
-): number => {
-  const degreesToRadians = (degrees: number) => (degrees * Math.PI) / 180;
-  const earthRadiusKm = 6371;
-
-  const dLat = degreesToRadians(lat2 - lat1);
-  const dLon = degreesToRadians(lon2 - lon1);
-
-  lat1 = degreesToRadians(lat1);
-  lat2 = degreesToRadians(lat2);
-
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return earthRadiusKm * c;
 };
 
 // adapted from https://usefulangle.com/post/318/javascript-check-dark-mode-activated
@@ -90,5 +68,24 @@ export const getDefaultTheme = (): Theme => {
     : Theme.Light;
 };
 
-export const fetchClouds = async (): Promise<{ clouds: Cloud[] }> =>
-  await (await fetch(LIST_AVAILABLES_ENDPOINT)).json();
+export const fetchClouds = async (
+  ctx: CloudsContext
+): Promise<{ clouds: Cloud[] }> => {
+  const { location, selectedProvider, selectedRegion, sortBy, sortOrder } = ctx;
+  const params = new URLSearchParams();
+  if (!!location) {
+    params.set("latitude", location.coords.latitude.toString());
+    params.set("longitude", location.coords.longitude.toString());
+  }
+  if (selectedRegion !== "all") {
+    params.set("region", selectedRegion);
+  }
+  if (selectedProvider !== "all") {
+    params.set("provider", selectedProvider);
+  }
+  params.set("sortBy", sortBy);
+  params.set("sortOrder", sortOrder);
+  return await (
+    await fetch(`${LIST_AVAILABLES_ENDPOINT}?${params.toString()}`)
+  ).json();
+};

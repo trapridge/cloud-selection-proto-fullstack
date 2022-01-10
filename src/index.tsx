@@ -6,6 +6,7 @@ import { useMachine } from "@xstate/react";
 import { cloudsMachine } from "./machine";
 import { fetchClouds, getGeoLocation } from "./utils/helpers";
 import { inspect } from "@xstate/inspect";
+import { CloudsContext } from "./utils/types";
 
 if (process.env.NODE_ENV === "development") {
   inspect({
@@ -17,7 +18,7 @@ const Root = () => {
   const [, , service] = useMachine(
     cloudsMachine.withConfig({
       services: {
-        fetchClouds,
+        fetchClouds: (ctx: CloudsContext) => fetchClouds(ctx),
         getGeoLocation,
       },
     }),

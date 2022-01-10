@@ -3,9 +3,10 @@ import { Cloud } from "../utils/types";
 
 interface ResultProps {
   cloud: Cloud;
+  showDistance: boolean;
 }
 
-export const Result = ({ cloud }: ResultProps): JSX.Element => {
+export const Result = ({ cloud, showDistance }: ResultProps): JSX.Element => {
   return (
     <Flex
       data-testid="result"
@@ -20,19 +21,15 @@ export const Result = ({ cloud }: ResultProps): JSX.Element => {
         },
       }}
     >
-      <Text
-        color="primary"
-        as="div"
-        sx={{ fontSize: 1, textTransform: "uppercase" }}
-      >
+      <Text color="primary" sx={{ fontSize: 1, textTransform: "uppercase" }}>
         {cloud.cloud_name}
       </Text>
       <Text as="div" my={3}>
         {cloud.cloud_description}
       </Text>
-      {location && (
+      {showDistance && cloud.distance && (
         <Text color="gray" as="div" sx={{ fontSize: 1 }}>
-          Distance: {cloud.distance?.toFixed()} km
+          Distance: {(cloud.distance / 1000).toFixed()} km
         </Text>
       )}
     </Flex>
