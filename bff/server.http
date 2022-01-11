@@ -1,6 +1,0 @@
-GET http://127.0.0.1:8000/clouds?region=Europe&sortOrder=descending&latitude=60&longitude=49&sortBy=distance HTTP/1.1
-
-###
-
-GET https://api.aiven.io/v1/clouds HTTP/1.1
-

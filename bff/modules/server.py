@@ -6,7 +6,7 @@ from sanic.log import logger
 
 from modules.filter import filter_clouds
 from modules.sort import sort_clouds
-from modules.utils import enrich_clouds_with_distance
+from modules.enrich import enrich_clouds_with_distance
 from modules.fetch import fetch_clouds_list
 
 

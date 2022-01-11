@@ -1,7 +1,6 @@
 from typing import List
 from httpx import AsyncClient, Response
 from aiocache import cached, Cache
-import pytest
 from sanic.exceptions import SanicException
 from sanic.log import logger
 

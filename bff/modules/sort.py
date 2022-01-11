@@ -1,11 +1,11 @@
-from typing import List, Optional
+from typing import List
 
 from modules.cloud import Cloud
 
 
 def sort_clouds(
-    sort_by: Optional[str] = "description",
-    sort_order: Optional[str] = "ascending",
+    sort_by: str = "description",
+    sort_order: str = "ascending",
     clouds: List[Cloud] = [],
 ) -> List[Cloud]:
     if sort_by == "distance":
