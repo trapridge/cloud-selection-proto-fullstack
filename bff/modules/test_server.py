@@ -111,9 +111,9 @@ async def test_sort_by_distance_ascending(respx_mock):
     )
     assert response.status == 200
     clouds = json.loads(response.body)
-    assert clouds[0]["distance"] == 7667814.946116347
-    assert clouds[1]["distance"] == 8027835.244840147
-    assert clouds[2]["distance"] == 9164090.724355262
+    assert clouds[0]["distance"] == pytest.approx(7667814.946116347)
+    assert clouds[1]["distance"] == pytest.approx(8027835.244840147)
+    assert clouds[2]["distance"] == pytest.approx(9164090.724355262)
 
 
 @pytest.mark.asyncio
@@ -126,9 +126,9 @@ async def test_sort_by_distance_descending(respx_mock):
     )
     assert response.status == 200
     clouds = json.loads(response.body)
-    assert clouds[2]["distance"] == 7667814.946116347
-    assert clouds[1]["distance"] == 8027835.244840147
-    assert clouds[0]["distance"] == 9164090.724355262
+    assert clouds[2]["distance"] == pytest.approx(7667814.946116347)
+    assert clouds[1]["distance"] == pytest.approx(8027835.244840147)
+    assert clouds[0]["distance"] == pytest.approx(9164090.724355262)
 
 
 @pytest.mark.asyncio
